@@ -22,9 +22,38 @@ from familiarity.commons import get_name, ImageSubsetFolder, SubsetSequentialSam
 from familiarity.dl.vgg_models import Vgg16
 from familiarity.dl.cornet_z import cornet_z
 from familiarity.dl.vsnet import Vsnet
-from familiarity.scratch_training import load_checkpoint, resume_model, save_checkpoint, get_dataloaders, get_debug_dataloader
+from familiarity.scratch_training import load_checkpoint, resume_model, save_checkpoint
 from familiarity import transforms
 from familiarity.config import DATA_DIR, VGGFACE2_FBF_LOC
+
+
+def get_subset_dataloaders(data_dir, data_transforms, 
+                    subset_classes=None,
+                    batch_size=128,
+                    num_workers=4,
+                    ):
+    """
+    A simple function for acquiring dataloaders corresponding to a specified subset of classes from a standard image folder organization
+
+    Arguments:
+        subset_classes: list of strings giving class names (must be the folder name inside dataset folder)
+    Returns:
+        dataloaders: dict of torchvision dataloaders labeled 'train', 'val', and 'test'
+    """
+
+    image_datasets = {x: ImageSubsetFolder(os.path.join(data_dir, x),
+                                  transform=data_transforms[x],
+                                  subset_classes=subset_classes,
+                                  ) for x in data_transforms.keys()}
+
+    dataloaders = {x: data.DataLoader(image_datasets[x],
+                                                  batch_size=batch_size,
+                                                  shuffle='train' in x,
+                                                  num_workers=num_workers,
+                                                  ) for x in data_transforms.keys()}
+
+    return dataloaders
+
 
 def train(model, optimizer, scheduler, dataloaders, dataset_sizes, subset_class_idx, subset_classes, opt, base_fn, save_dir=os.path.join(DATA_DIR, 'facebyface')):
     """
@@ -50,7 +79,8 @@ def train(model, optimizer, scheduler, dataloaders, dataset_sizes, subset_class_
                 new_idx = np.random.choice(unfam_idx, np.minimum(int(opt['incr_frac']*len(all_classes)), len(all_classes)-len(unfam_idx)), replace=False)
                 subset_class_idx = np.concatenate((subset_class_idx,new_idx))
                 subset_classes = [all_classes[idx] for idx in subset_class_idx]
-                dataloaders = get_dataloaders(subset_classes)
+                data_transforms = {key: dataloaders[key].dataset.transform for key in dataloaders.keys()} # use same transforms throughout
+                dataloaders = get_subset_dataloaders(opt['data_dir'], data_transforms, subset_classes=subset_classes, batch_size=opt['batch_size'], num_workers=opt['num_workers'])
                 if hasattr(dataloaders['train'].sampler, 'indices'):
                     dataset_sizes = {x: len(dataloaders[x].sampler.indices) for x in ['train', 'val', 'test']}
                 else:
@@ -208,7 +238,7 @@ if __name__ == "__main__":
     np.random.seed(1)
     subset_class_idx = np.random.choice(np.arange(len(all_classes)), int(args.start_frac*len(all_classes)), replace=False)
     subset_classes = [all_classes[idx] for idx in subset_class_idx]
-    dataloaders = get_dataloaders(subset_classes=subset_classes)
+    dataloaders = get_subset_dataloaders(data_dir, data_transforms, subset_classes=subset_classes, batch_size=opt['batch_size'], num_workers=opt['num_workers'])
 
     if hasattr(dataloaders['train'].sampler, 'indices'):
         dataset_sizes = {x: len(dataloaders[x].sampler.indices) for x in ['train', 'val', 'test']}
