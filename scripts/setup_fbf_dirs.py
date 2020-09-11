@@ -18,7 +18,7 @@ def main():
     overlap_ids = np.unique(celeb_overlap_ids + lfw_overlap_ids)
     subset_classes = [class_ for class_ in all_ids if class_ not in overlap_ids]
     for class_ in subset_classes:
-        ims = glob.glob(os.path.join(os.path.join(VGGFACE2_LOC, f'train/{class_}/*')))
+        ims = glob.glob(os.path.join(VGGFACE2_LOC, f'train/{class_}/*'))
         n_ims = len(ims)
         inds = {}
         inds['train'] = np.random.choice(np.arange(n_ims), size=int(.8*n_ims), replace=False)
