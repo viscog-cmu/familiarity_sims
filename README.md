@@ -3,7 +3,7 @@
  
 # Computational insights into human perceptual expertise for familiar and unfamiliar face recognition    
 
-[![Paper](http://img.shields.io/badge/Cognition-2020-4b44ce.svg)](https://psyarxiv.com/bv5mp)
+[![Paper](http://img.shields.io/badge/Cognition-2020-4b44ce.svg)](https://doi.org/10.1016/j.cognition.2020.104341)
 <!--
 PSYARXIV   
 [![Paper](http://img.shields.io/badge/arxiv-math.co:1480.1111-B31B1B.svg)](https://psyarxiv.com/bv5mp)
