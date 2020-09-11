@@ -14,4 +14,4 @@ dependencies:
   - torchvision=0.2.1
   - Pillow==6.1
   - scikit-learn==0.22.1
-  - scitkit-image==0.16.2
+  - scikit-image==0.16.2
