@@ -3,7 +3,7 @@
  
 # Computational insights into human perceptual expertise for familiar and unfamiliar face recognition    
 
-[![Paper](http://img.shields.io/badge/PsyArxiv-2019-4b44ce.svg)](https://psyarxiv.com/bv5mp)
+[![Paper](http://img.shields.io/badge/Cognition-2020-4b44ce.svg)](https://psyarxiv.com/bv5mp)
 <!--
 PSYARXIV   
 [![Paper](http://img.shields.io/badge/arxiv-math.co:1480.1111-B31B1B.svg)](https://psyarxiv.com/bv5mp)
@@ -17,11 +17,11 @@ PSYARXIV
 
 ### Citation   
 ```
-@article{Blauch2019,
+@article{Blauch2020,
   title={Computational insights into human perceptual expertise for familiar and unfamiliar face recognition},
   author={Nicholas M. Blauch, Marlene Behrmann, David C. Plaut},
-  journal={PsyArxiv},
-  year={2019}
+  journal={Cognition},
+  year={2020}
 }
 ```   
 
