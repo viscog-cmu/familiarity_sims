@@ -3,9 +3,9 @@ import shutil
 import numpy as np
 import glob
 import sys
-sys.path.append('..')
+sys.path.append('.')
 
-from familiarity.config import PRETRAIN_IMSETS_LOC, VGGFACE2_LOC
+from familiarity.config import PRETRAIN_IMSETS_LOC, VGGFACE2_LOC, DATA_DIR
 
 def main():
     all_ids = [os.path.basename(im) for im in glob.glob(os.path.join(VGGFACE2_LOC, 'train/n*'))]
@@ -13,12 +13,12 @@ def main():
         'n002954', 'n002963', 'n003347', 'n003478', 'n004120', 'n005249', 'n006287' ,'n006473', 'n006479',
         'n009008', 'n000693', 'n002348', 'n002794', 'n003265', 'n003977', 'n004045', 'n004623', 'n005914',
         'n006873', 'n008153', 'n008191']
-    with open(os.path.join(data_loc, 'vggface2/ids_in_lfw.txt'), 'r') as f:
+    with open(os.path.join(DATA_DIR, 'etc/ids_in_lfw.txt'), 'r') as f:
         lfw_overlap_ids = [line.replace('\n', '') for line in f.readlines()]
     overlap_ids = np.unique(celeb_overlap_ids + lfw_overlap_ids)
     subset_classes = [class_ for class_ in all_ids if class_ not in overlap_ids]
     for class_ in subset_classes:
-        ims = glob.glob(os.path.join(os.path.join(VGGFACE2_LOC, 'train/{class_}/*'))
+        ims = glob.glob(os.path.join(VGGFACE2_LOC, f'train/{class_}/*'))
         n_ims = len(ims)
         inds = {}
         inds['train'] = np.random.choice(np.arange(n_ims), size=int(.8*n_ims), replace=False)
