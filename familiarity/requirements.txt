@@ -10,5 +10,5 @@ torch==0.4.1
 menpo==0.10.0
 menpodetect==0.6.1
 menpofit==0.6.1
-Pillow==7.1.0
+Pillow==9.0.0
 scikit_learn==0.22.1
