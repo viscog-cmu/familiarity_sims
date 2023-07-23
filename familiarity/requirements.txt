@@ -6,7 +6,7 @@ tqdm==4.28.1
 scipy==1.1.0
 torchvision==0.2.1
 xlrd==1.1.0
-torch==0.4.1
+torch==1.13.1
 menpo==0.10.0
 menpodetect==0.6.1
 menpofit==0.6.1
